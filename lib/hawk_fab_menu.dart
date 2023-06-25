@@ -15,6 +15,8 @@ class HawkFabMenu extends StatefulWidget {
   final List<HawkFabMenuItem> items;
   final double blur;
   final AnimatedIconData? icon;
+  final Widget? customOpenIcon;
+  final Widget? customCloseIcon;
   final IconData? openIcon;
   final IconData? closeIcon;
   final Color? fabColor;
@@ -28,6 +30,8 @@ class HawkFabMenu extends StatefulWidget {
     Key? key,
     required this.body,
     required this.items,
+    this.customCloseIcon,
+    this.customOpenIcon,
     this.blur = 5.0,
     this.icon,
     this.fabColor,
@@ -180,6 +184,10 @@ class _HawkFabMenuState extends State<HawkFabMenu>
   /// On clicking of which the menu toggles
   Widget _buildMenuButton(BuildContext context) {
     late Widget iconWidget;
+    if (widget.customCloseIcon != null && widget.customOpenIcon!=null) {
+      iconWidget = _isOpen?widget.customOpenIcon!:widget.customCloseIcon!;
+
+    } else{
     if (widget.openIcon != null && widget.closeIcon != null) {
       iconWidget = Icon(
         _isOpen ? widget.closeIcon : widget.openIcon,
@@ -192,11 +200,14 @@ class _HawkFabMenuState extends State<HawkFabMenu>
         color: widget.iconColor,
       );
     }
+    }
     return Positioned(
       bottom: 10,
       right: 10,
-      child: FloatingActionButton(
-        child: iconWidget,
+      child:   FloatingActionButton(
+        child:  (widget.customCloseIcon != null && widget.customOpenIcon!=null)? 
+        AnimatedContainer(duration: const Duration(milliseconds: 400),child:iconWidget,)
+        :iconWidget,
         heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
         backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
         onPressed: _toggleMenu,
