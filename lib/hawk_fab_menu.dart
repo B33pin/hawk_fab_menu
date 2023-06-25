@@ -15,8 +15,13 @@ class HawkFabMenu extends StatefulWidget {
   final List<HawkFabMenuItem> items;
   final double blur;
   final AnimatedIconData? icon;
-  final Widget? customOpenIcon;
-  final Widget? customCloseIcon;
+  final Text? openText;
+  final Text? closeText;
+  final int? animationDuration;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final Color? openContainerColor;
+  final Color? closeContainerColor;
   final IconData? openIcon;
   final IconData? closeIcon;
   final Color? fabColor;
@@ -30,8 +35,8 @@ class HawkFabMenu extends StatefulWidget {
     Key? key,
     required this.body,
     required this.items,
-    this.customCloseIcon,
-    this.customOpenIcon,
+    this.openText,
+    this.closeText,
     this.blur = 5.0,
     this.icon,
     this.fabColor,
@@ -41,7 +46,7 @@ class HawkFabMenu extends StatefulWidget {
     this.openIcon,
     this.closeIcon,
     this.heroTag,
-    this.hawkFabMenuController,
+    this.hawkFabMenuController,  this.animationDuration, this.margin, this.padding, this.openContainerColor, this.closeContainerColor,
   }) : super(key: key) {
     assert(items.isNotEmpty);
   }
@@ -184,10 +189,6 @@ class _HawkFabMenuState extends State<HawkFabMenu>
   /// On clicking of which the menu toggles
   Widget _buildMenuButton(BuildContext context) {
     late Widget iconWidget;
-    if (widget.customCloseIcon != null && widget.customOpenIcon!=null) {
-      iconWidget = _isOpen?widget.customOpenIcon!:widget.customCloseIcon!;
-
-    } else{
     if (widget.openIcon != null && widget.closeIcon != null) {
       iconWidget = Icon(
         _isOpen ? widget.closeIcon : widget.openIcon,
@@ -200,30 +201,24 @@ class _HawkFabMenuState extends State<HawkFabMenu>
         color: widget.iconColor,
       );
     }
-    }
     return Positioned(
       bottom: 10,
       right: 10,
-      child: (widget.customCloseIcon != null && widget.customOpenIcon!=null)? 
-        InkWell(
-          focusColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap:_toggleMenu ,
-          child: AnimatedContainer(
-          decoration: BoxDecoration(
-            color: _isOpen?Colors.green:Colors.red,
-            borderRadius: BorderRadius.circular(20)
-          ),
-          duration: const Duration(milliseconds: 400),child:iconWidget,),
-        )
-        :  FloatingActionButton(
-        child:  iconWidget,
-        heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
-        backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
-        onPressed: _toggleMenu,
-        shape: StadiumBorder(side: widget.buttonBorder),
+      child: AnimatedContainer(duration: Duration(milliseconds:widget.animationDuration?? 400),
+      padding: widget.padding,
+      margin: widget.margin,
+      decoration: BoxDecoration(
+        color: _isOpen?widget.openContainerColor??Colors.green:widget.closeContainerColor??Colors.red,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: widget.buttonBorder.color,width: widget.buttonBorder.width)
+      ),
+      child: Row(
+        children: [
+          iconWidget,
+         const SizedBox(width: 20,),
+         _isOpen? widget.openText??const SizedBox():widget.closeText??const SizedBox()
+        ],
+      ),
       ),
     );
   }
