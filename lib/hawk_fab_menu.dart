@@ -204,10 +204,15 @@ class _HawkFabMenuState extends State<HawkFabMenu>
     return Positioned(
       bottom: 10,
       right: 10,
-      child:   FloatingActionButton(
-        child:  (widget.customCloseIcon != null && widget.customOpenIcon!=null)? 
-        AnimatedContainer(duration: const Duration(milliseconds: 400),child:iconWidget,)
-        :iconWidget,
+      child: (widget.customCloseIcon != null && widget.customOpenIcon!=null)? 
+        AnimatedContainer(
+        decoration: BoxDecoration(
+          color: _isOpen?Colors.green:Colors.red,
+          borderRadius: BorderRadius.circular(20)
+        ),
+        duration: const Duration(milliseconds: 400),child:iconWidget,)
+        :  FloatingActionButton(
+        child:  iconWidget,
         heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
         backgroundColor: widget.fabColor ?? Theme.of(context).primaryColor,
         onPressed: _toggleMenu,
