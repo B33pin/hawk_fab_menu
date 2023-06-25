@@ -14,6 +14,8 @@ class HawkFabMenu extends StatefulWidget {
   final Widget body;
   final List<HawkFabMenuItem> items;
   final double blur;
+  final double? openWidth;
+  final double? closeWidth;
   final AnimatedIconData? icon;
   final Text? openText;
   final Text? closeText;
@@ -40,6 +42,8 @@ class HawkFabMenu extends StatefulWidget {
     this.blur = 5.0,
     this.icon,
     this.fabColor,
+    this.openWidth,
+    this.closeWidth,
     this.iconColor,
     this.backgroundColor,
     this.buttonBorder = BorderSide.none,
@@ -210,7 +214,9 @@ class _HawkFabMenuState extends State<HawkFabMenu>
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: _toggleMenu,
-        child: AnimatedContainer(duration: Duration(milliseconds:widget.animationDuration?? 400),
+        child: AnimatedContainer(
+          width: _isOpen ? widget.openWidth : widget.closeWidth,
+        duration: Duration(milliseconds:widget.animationDuration?? 400),
         padding: widget.padding,
         margin: widget.margin,
         decoration: BoxDecoration(
@@ -221,7 +227,7 @@ class _HawkFabMenuState extends State<HawkFabMenu>
         child: Row(
           children: [
             iconWidget,
-           const SizedBox(width: 20,),
+           const SizedBox(width: 8,),
            _isOpen? widget.openText??const SizedBox():widget.closeText??const SizedBox()
           ],
         ),
