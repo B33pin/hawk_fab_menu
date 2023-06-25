@@ -205,12 +205,19 @@ class _HawkFabMenuState extends State<HawkFabMenu>
       bottom: 10,
       right: 10,
       child: (widget.customCloseIcon != null && widget.customOpenIcon!=null)? 
-        AnimatedContainer(
-        decoration: BoxDecoration(
-          color: _isOpen?Colors.green:Colors.red,
-          borderRadius: BorderRadius.circular(20)
-        ),
-        duration: const Duration(milliseconds: 400),child:iconWidget,)
+        InkWell(
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap:_toggleMenu ,
+          child: AnimatedContainer(
+          decoration: BoxDecoration(
+            color: _isOpen?Colors.green:Colors.red,
+            borderRadius: BorderRadius.circular(20)
+          ),
+          duration: const Duration(milliseconds: 400),child:iconWidget,),
+        )
         :  FloatingActionButton(
         child:  iconWidget,
         heroTag: widget.heroTag ?? '_HawkFabMenu_$hashCode',
