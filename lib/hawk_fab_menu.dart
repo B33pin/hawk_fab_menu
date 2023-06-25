@@ -224,12 +224,15 @@ class _HawkFabMenuState extends State<HawkFabMenu>
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: widget.buttonBorder.color,width: widget.buttonBorder.width)
         ),
-        child: Row(
-          children: [
-            iconWidget,
-           const SizedBox(width: 8,),
-           _isOpen? widget.openText??const SizedBox():widget.closeText??const SizedBox()
-          ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              iconWidget,
+             const SizedBox(width: 5,),
+             _isOpen? widget.openText??const SizedBox():widget.closeText??const SizedBox()
+            ],
+          ),
         ),
         ),
       ),
