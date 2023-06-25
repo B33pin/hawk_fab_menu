@@ -204,21 +204,28 @@ class _HawkFabMenuState extends State<HawkFabMenu>
     return Positioned(
       bottom: 10,
       right: 10,
-      child: AnimatedContainer(duration: Duration(milliseconds:widget.animationDuration?? 400),
-      padding: widget.padding,
-      margin: widget.margin,
-      decoration: BoxDecoration(
-        color: _isOpen?widget.openContainerColor??Colors.green:widget.closeContainerColor??Colors.red,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: widget.buttonBorder.color,width: widget.buttonBorder.width)
-      ),
-      child: Row(
-        children: [
-          iconWidget,
-         const SizedBox(width: 20,),
-         _isOpen? widget.openText??const SizedBox():widget.closeText??const SizedBox()
-        ],
-      ),
+      child: InkWell(
+        focusColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: _toggleMenu,
+        child: AnimatedContainer(duration: Duration(milliseconds:widget.animationDuration?? 400),
+        padding: widget.padding,
+        margin: widget.margin,
+        decoration: BoxDecoration(
+          color: _isOpen?widget.openContainerColor??Colors.green:widget.closeContainerColor??Colors.red,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: widget.buttonBorder.color,width: widget.buttonBorder.width)
+        ),
+        child: Row(
+          children: [
+            iconWidget,
+           const SizedBox(width: 20,),
+           _isOpen? widget.openText??const SizedBox():widget.closeText??const SizedBox()
+          ],
+        ),
+        ),
       ),
     );
   }
